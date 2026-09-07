@@ -1,0 +1,51 @@
+cff-version: 1.2.0
+message: "Please cite the relevant CoFL or CoFL-S paper in references.bib."
+title: "CoFL: Continuous flow-field navigation policies"
+type: software
+version: 0.1.0a1
+authors:
+  - family-names: Liu
+    given-names: Haokun
+references:
+  - type: article
+    title: "CoFL: Continuous Flow Fields for Language-Conditioned Navigation"
+    authors:
+      - family-names: Liu
+        given-names: Haokun
+      - family-names: Ma
+        given-names: Zhaoqi
+      - family-names: Chen
+        given-names: Yicheng
+      - family-names: Kitagawa
+        given-names: Masaki
+      - family-names: Zhang
+        given-names: Wentao
+      - family-names: Xiong
+        given-names: Zicen
+      - family-names: Li
+        given-names: Jinjie
+      - family-names: Zhao
+        given-names: Moju
+    year: 2026
+    doi: 10.48550/arXiv.2603.02854
+  - type: article
+    title: "CoFL-S: Spatially Queryable Sector Flow Fields for Local Language-Conditioned Navigation"
+    authors:
+      - family-names: Liu
+        given-names: Haokun
+      - family-names: Ma
+        given-names: Zhaoqi
+      - family-names: Chen
+        given-names: Yicheng
+      - family-names: Zhang
+        given-names: Wentao
+      - family-names: Kitagawa
+        given-names: Masaki
+      - family-names: Xiong
+        given-names: Zicen
+      - family-names: Li
+        given-names: Jinjie
+      - family-names: Zhao
+        given-names: Moju
+    year: 2026
+    doi: 10.48550/arXiv.2607.02222

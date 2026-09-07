@@ -1,0 +1,58 @@
+method: cofl
+dataset_id: cofl-image-fields
+revision: static-v1
+split: train
+seed: 42
+source:
+  id: rendered-semantic-scenes
+  version: v1
+pipeline:
+  # Paths resolve relative to this file. Supply existing renders or use
+  # cofl data render --dataset matterport/scannet (see docs/rendering.md).
+  data_dirs: [../../data/raw/matterport-rendered, ../../data/raw/scannet-rendered]
+  label_config: image_labels.yaml
+  exclude_scenes: [YmJkqBEsHnH]
+  val_scenes:
+    - ZMojNkEp431
+    - zsNo4HB9uLZ
+    - Z6MFQCViBuw
+    - scene0700_00
+    - scene0700_01
+    - scene0700_02
+    - scene0701_00
+    - scene0701_01
+    - scene0701_02
+    - scene0702_00
+    - scene0702_01
+    - scene0702_02
+  top_view_only: false
+  max_regions: null
+  flow_resolution: [224, 224]
+  field_resolution: [50, 50]
+  image_resolution: 224
+  num_start_samples: 5
+  potential_field:
+    safe_radius: 50.0
+    safety_cost_weight: 1.0
+    goal_weight: 1.0
+    inside_obstacle_speed_norm: 1.0
+    smoothing_iterations: 2
+    smoothing_kernel_size: 5
+    smoothing_sigma: 1.0
+    check_margin: 20
+    min_walkable_pixels: 50
+    max_directional_goals: 2
+  trajectory:
+    enabled: true
+    min_length: 16
+    max_steps: 200
+    num_output_length: 100
+    min_start_goal_dist: 0.1
+    distance_bias_power: 2.0
+    disable_resample: false
+    use_spline_resample: true
+    polyline_preserve_vertices: false
+    smooth_strength: 0.0001
+    endpoint_weight: 50.0
+    endpoint_blend_len: 4
+    start_sampling_trials: 20

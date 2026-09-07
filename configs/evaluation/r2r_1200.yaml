@@ -1,0 +1,43 @@
+# R2R-1200 data inputs and Habitat settings used by evaluation.
+# The dataset provider only produces the selected_* data files below.
+# Install/link scene assets and the Habitat environment at these paths,
+# or change scenes_dir and habitat_python for your machine.
+online:
+  dataset_data_path: ../../prepared/r2r_1200/selected_episodes.json.gz
+  gt_path: ../../prepared/r2r_1200/selected_gt.json.gz
+  fgr2r_json: ../../prepared/r2r_1200/selected_fgr2r.json
+  scenes_dir: ../../data/scene_datasets
+  habitat_python: ../../.habitat/bin/python
+  habitat_config: r2r_1200.yaml
+  split: val_unseen
+  language_filter: en
+  instruction_mode: oracle
+  oracle_unavailable: error
+  progress_lookahead: 6
+  hfov_deg: 90.0
+  ndtw_fdtw: true
+SIMULATOR:
+  AGENT_0:
+    HEIGHT: 1.5
+    RADIUS: 0.1
+  HABITAT_SIM_V0:
+    ALLOW_SLIDING: true
+  RGB_SENSOR:
+    HEIGHT: 224
+    WIDTH: 224
+    HFOV: 90.0
+    POSITION:
+    - 0.0
+    - 1.5
+    - 0.0
+  DEPTH_SENSOR:
+    HEIGHT: 256
+    WIDTH: 256
+    HFOV: 90.0
+    POSITION:
+    - 0.0
+    - 1.5
+    - 0.0
+    MIN_DEPTH: 0.0
+    MAX_DEPTH: 10.0
+    NORMALIZE_DEPTH: false

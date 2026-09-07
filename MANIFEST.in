@@ -1,0 +1,18 @@
+include README.md LICENSE THIRD_PARTY_NOTICES.md CITATION.cff references.bib uv.lock .python-version
+recursive-include docs *.md
+recursive-include configs *.yaml
+recursive-include benchmarks *.json *.md
+recursive-include reproduce *.md
+recursive-include src/cofl/app/static *
+exclude src/cofl/generation/rendering/assets/cameras.json
+recursive-include app *.json *.ts *.tsx *.css *.html *.mjs *.py *.md
+include app/.prettierignore
+recursive-include app/licenses *.txt *.json
+prune tests
+prune tools
+prune app/tests
+exclude app/playwright.config.ts
+prune app/node_modules
+prune app/test-results
+prune app/playwright-report
+global-exclude __pycache__ *.py[cod]

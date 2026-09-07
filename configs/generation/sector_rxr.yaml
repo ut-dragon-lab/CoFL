@@ -1,0 +1,29 @@
+method: cofl-s
+dataset_id: cofl-s-rxr
+revision: sector-v1
+split: train
+seed: 42
+source:
+  id: rxr-vlnce-with-landmark-rxr
+  version: v1
+pipeline:
+  habitat_config: ../../data/runtime/rxr_vlnce_task.yaml
+  dataset_data_path: ../../data/raw/rxr/{split}/{split}_guide.json.gz
+  gt_actions_path: ../../data/raw/rxr/{split}/{split}_guide_gt.json.gz
+  scenes_dir: ../../data/raw/scene_datasets
+  subinstructions:
+    kind: landmark_rxr
+    path: ../../data/raw/landmark_rxr/{split}_guide.json
+  replay_mode: gt
+  habitat_python: ../../environments/habitat/bin/python
+  runtime_pythonpath: [../../data/runtime/vlnce]
+  augmentation:
+    hfov_rad: 1.3788101090755203
+    bev_x_max: 5.0
+    bev_resolution: 0.1
+    v_norm: 5.0
+    dataset_builder:
+      max_steps_per_ep: 1000
+      frame_stride: 1
+      baseline_labels:
+        horizon: 100

@@ -1,0 +1,101 @@
+# LightningCLI configuration; paths are relative to the working directory.
+seed_everything: 42
+trainer:
+  accelerator: gpu
+  devices: 1
+  precision: 32-true
+  max_epochs: 10
+  default_root_dir: outputs/cofl
+  gradient_clip_val: 0.5
+  gradient_clip_algorithm: norm
+  log_every_n_steps: 50
+  val_check_interval: 5000
+  check_val_every_n_epoch: null
+  num_sanity_val_steps: 2
+  deterministic: true
+  logger:
+    class_path: lightning.pytorch.loggers.WandbLogger
+    init_args:
+      project: CoFL
+      name: cofl-lightning-seed42
+      save_dir: outputs/cofl
+      offline: false
+      log_model: false
+  callbacks:
+  - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+    init_args:
+      dirpath: null
+      filename: best
+      monitor: val/total
+      mode: min
+      save_top_k: 1
+      save_last: false
+      save_on_train_epoch_end: false
+      enable_version_counter: false
+      auto_insert_metric_name: false
+  - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+    init_args:
+      dirpath: null
+      save_top_k: 0
+      save_last: true
+      every_n_train_steps: 5000
+      enable_version_counter: false
+  - class_path: cofl.training.callbacks.WarmupEarlyStopping
+    init_args:
+      monitor: val/total
+      patience: 10
+      min_delta: 0.0
+      start_step: 5000
+  - class_path: cofl.training.callbacks.FinalCheckpoint
+  - class_path: lightning.pytorch.callbacks.LearningRateMonitor
+    init_args:
+      logging_interval: step
+model:
+  model:
+    method: cofl
+    d_model: 768
+    num_heads: 8
+    fusion_layers: 4
+    decoder_layers: 2
+    siglip_model_name: google/siglip2-base-patch16-224
+    # Per tower: 0 = frozen, -1 = all parameters, N > 0 = last N blocks.
+    vision_unfreeze_last_n_layers: -1
+    text_unfreeze_last_n_layers: -1
+    local_files_only: false
+    use_depth: false
+    depth_interpolation: nearest
+    depth_min_m: 0.0
+    r_max_m: 5.0
+    hfov_rad: 1.5707963267948966
+    normalization_scale_m: 5.0
+  optimizer:
+    learning_rate: 0.0001
+    vision_learning_rate: 1.0e-05
+    text_learning_rate: 1.0e-05 
+    weight_decay: 1.0e-05
+    schedule: cosine
+    warmup_steps: 5000
+  field_loss:
+    magnitude_loss: mse
+    magnitude_normalization: absolute
+    direction_weight: 1.0
+    magnitude_weight: 1.0
+    relative_epsilon: 0.1
+    direction_epsilon: 1.0e-08
+    direction_min_target_magnitude: 1.0e-08
+  action_loss_weight: 0.3
+data:
+  dataset: datasets/cofl
+  batch_size: 32
+  num_workers: 4
+  multiprocessing_context: forkserver
+  num_queries: 1000
+  query_sampling: continuous
+  stratified_grid_size: 10
+  color_jitter: 0.15
+  validation_split: val
+  validation_batch_size: 16
+  validation_num_queries: 1000
+  validation_max_samples: null
+  seed: 42
+  allow_partial_dataset: false

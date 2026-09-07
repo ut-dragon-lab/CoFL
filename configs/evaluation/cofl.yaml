@@ -1,0 +1,23 @@
+dataset: datasets/cofl
+checkpoint: checkpoints/cofl/best.ckpt
+output: artifacts/evaluation/cofl
+split: val
+tasks: [field, image_navigation]
+device: cuda
+batch_size: 16
+num_workers: 8
+multiprocessing_context: forkserver
+query_chunk_size: 4096
+precision: float32
+score_workers: 1
+profile_batches: 0
+seed: 42
+max_samples: null
+visualization_count: 24
+trajectory:
+  grid_size: 100
+  num_steps: 100
+  policy_dt: 0.01
+  time_scale_bias: 0.5
+  time_scale_power: 10.0
+  resample_points: 101

@@ -1,0 +1,72 @@
+name: tests
+on:
+  push:
+  pull_request:
+
+jobs:
+  cpu:
+    runs-on: ubuntu-24.04
+    env:
+      CUDA_VISIBLE_DEVICES: ''
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv and select Python
+        uses: astral-sh/setup-uv@v10.0.1
+        with:
+          version: '0.12.10'
+          python-version: '3.12.12'
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Install locked CPU dependencies
+        run: uv sync --locked --no-group cu124 --group cpu
+      - name: Verify Python environment and CPU wheels
+        run: |
+          uv run --no-sync python - <<'PY'
+          import site
+          import sys
+          from pathlib import Path
+
+          import torch
+          import torchvision
+
+          assert sys.version_info[:3] == (3, 12, 12)
+          assert sys.prefix != sys.base_prefix
+          assert not site.ENABLE_USER_SITE
+          for package in (torch, torchvision):
+              assert Path(package.__file__).resolve().is_relative_to(Path(sys.prefix).resolve())
+          assert torch.version.cuda is None
+          assert torch.__version__.endswith('+cpu')
+          assert torchvision.__version__.endswith('+cpu')
+          print(sys.version)
+          print(f'torch={torch.__version__}, torchvision={torchvision.__version__}')
+          PY
+      - name: Verify CLI entrypoints
+        env:
+          HF_HUB_OFFLINE: '1'
+        run: |
+          uv run --no-sync cofl --help
+          uv run --no-sync cofl app --help
+          uv run --no-sync python -m cofl.online --help
+      - name: Set up Node for Studio
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - name: Install Studio dependencies
+        working-directory: app
+        run: npm ci
+      - name: Verify generated Studio API types
+        run: |
+          uv run --no-sync cofl app --export-openapi app/openapi.json
+          npm --prefix app run generate:api
+          git diff --exit-code -- app/openapi.json app/src/api/schema.d.ts
+      - name: Test and build Studio
+        working-directory: app
+        run: |
+          npm test
+          npm run build
+      - name: Build source and wheel distributions
+        run: uv run --no-sync python -m build --no-isolation

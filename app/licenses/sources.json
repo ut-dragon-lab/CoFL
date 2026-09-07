@@ -1,0 +1,22 @@
+{
+  "@react-three/fiber": {
+    "file": "react-three--fiber-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/pmndrs/react-three-fiber/v9.7.0/LICENSE",
+    "package_version": "9.7.0"
+  },
+  "react-remove-scroll-bar": {
+    "file": "react-remove-scroll-bar-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/theKashey/react-remove-scroll-bar/master/LICENSE",
+    "package_version": "2.3.8"
+  },
+  "draco3d": {
+    "file": "draco3d-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/google/draco/1.5.7/LICENSE",
+    "package_version": "1.5.7"
+  },
+  "basis_universal": {
+    "file": "basis_universal-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/BinomialLLC/basis_universal/master/LICENSE",
+    "package_version": null
+  }
+}

@@ -1,0 +1,33 @@
+method: cofl-s
+dataset_id: cofl-s-r2r
+revision: sector-v1
+split: train
+seed: 42
+source:
+  id: r2r-vlnce-with-fgr2r
+  version: v1
+pipeline:
+  # All relative paths resolve from this file. Supply licensed source assets.
+  habitat_config: ../../data/runtime/vlnce_task.yaml
+  dataset_data_path: ../../data/raw/r2r/{split}/{split}.json.gz
+  gt_actions_path: ../../data/raw/r2r/{split}/{split}_gt.json.gz
+  scenes_dir: ../../data/raw/scene_datasets
+  subinstructions:
+    kind: fgr2r
+    path: ../../data/raw/fgr2r/FGR2R_{split}.json
+  replay_mode: gt
+  # Optional separate Python 3.7 Habitat environment; no native data packages
+  # are installed into it. External habitat_extensions must be installed there
+  # or exposed explicitly through runtime_pythonpath.
+  habitat_python: ../../environments/habitat/bin/python
+  runtime_pythonpath: [../../data/runtime/vlnce]
+  augmentation:
+    hfov_rad: 1.5707963267948966
+    bev_x_max: 5.0
+    bev_resolution: 0.1
+    v_norm: 5.0
+    dataset_builder:
+      max_steps_per_ep: 500
+      frame_stride: 1
+      baseline_labels:
+        horizon: 100

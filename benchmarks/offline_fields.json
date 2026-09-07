@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "name": "offline_fields_v1",
+  "status": "runnable_api",
+  "entrypoint": "cofl.evaluation.evaluate_field",
+  "profiles": ["image_field_v1", "ground_sector_v1"],
+  "field_layout": "channel_last",
+  "components": 2,
+  "mask": "boolean_selected_cells",
+  "directional_target_min_magnitude_native": 1e-8,
+  "zero_prediction_angular_penalty_deg": 180.0,
+  "instruction_mode": "record_per_run",
+  "execution": "offline",
+  "publication_reproduction": false
+}

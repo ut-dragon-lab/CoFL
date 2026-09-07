@@ -1,0 +1,49 @@
+# Local environments and generated artifacts
+.venv/
+/.habitat
+.venv-*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+.coverage
+htmlcov/
+artifacts/
+outputs/
+runs/
+checkpoints/
+# Historical CoFL scene data is not part of the first asset release.
+/src/cofl/generation/rendering/assets/cameras.json
+datasets/
+prepared/
+/data/
+/results/
+/logs/
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.zarr/
+# Local configuration
+.env
+.env.*
+!.env.example
+.DS_Store
+.idea/
+.vscode/
+local/
+# Local test suites and development tools
+tests/
+/tools/
+/app/playwright.config.ts
+# Studio build outputs and browser test artifacts
+node_modules/
+src/cofl/app/static/
+app/public/decoders/
+playwright-report/
+test-results/
+*.tsbuildinfo

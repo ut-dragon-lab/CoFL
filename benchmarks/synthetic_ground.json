@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "name": "synthetic_ground_pursuit_v1",
+  "status": "runnable_cli",
+  "entrypoint": "python -m cofl.evaluation.synthetic --output results/synthetic --seed 0",
+  "profile": "ground_sector_v1",
+  "instruction_mode": "goal_assisted",
+  "instruction_source": "explicit_synthetic_goal_coordinates",
+  "execution": "fixed_step",
+  "planner_hz": 5.0,
+  "controller_hz": 20.0,
+  "plant_hz": 20.0,
+  "inference_latency_affects_execution": false,
+  "trained_policy": false,
+  "obstacles": false,
+  "publication_reproduction": false,
+  "numerical_recipe_location": "summary.json:summary.recipe"
+}

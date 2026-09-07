@@ -1,0 +1,135 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cofl-navigation"
+version = "0.1.0a1"
+description = "Continuous flow-field policies for language-conditioned navigation"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+requires-python = ">=3.12,<3.13"
+dependencies = ["numpy>=1.26,<3"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+app = [
+  "cofl-navigation[data,online]",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "pydantic>=2.10,<3",
+]
+online = [
+  "cofl-navigation[vision]",
+  "PyYAML>=6,<7",
+  "filelock>=3.18,<4",
+  "fastdtw==0.3.4",
+]
+data = ["pyarrow>=19,<23", "zarr==2.18.3", "numcodecs>=0.12,<0.16", "Pillow>=10,<12"]
+generation = [
+  "pyarrow>=19,<23",
+  "zarr==2.18.3",
+  "numcodecs>=0.12,<0.16",
+  "Pillow>=10,<12",
+  "scipy>=1.10,<2",
+  "opencv-python-headless>=4.8,<5",
+  "PyYAML>=6,<7",
+]
+rendering = ["cofl-navigation[generation]", "open3d==0.19.0"]
+models = ["torch==2.5.1"]
+vision = [
+  "cofl-navigation[models]",
+  "torchvision==0.20.1",
+  "transformers[sentencepiece]==4.57.1",
+  "Pillow>=10,<12",
+]
+tracking = ["wandb==0.23.1"]
+evaluation = [
+  "cofl-navigation[data,vision]",
+  "jsonargparse[signatures]>=4.49,<5",
+  "pandas>=2.2,<3",
+  "matplotlib>=3.8,<4",
+  "tqdm>=4.66,<5",
+]
+training = [
+  "cofl-navigation[data,vision,tracking]",
+  "lightning==2.5.5",
+  "jsonargparse[signatures]>=4.27.7,<5",
+  "torchmetrics==1.8.2",
+  "torchdata==0.10.0",
+]
+
+[dependency-groups]
+dev = [
+  "cofl-navigation[training,evaluation,generation,app]",
+  "httpx>=0.28,<1",
+  "pytest>=8,<9",
+  "build>=1.2,<2",
+  "setuptools>=68",
+  "wheel",
+]
+cpu = ["torch==2.5.1", "torchvision==0.20.1"]
+cu124 = ["torch==2.5.1", "torchvision==0.20.1"]
+
+[tool.uv]
+required-version = ">=0.12.10"
+python-preference = "only-managed"
+build-constraint-dependencies = ["setuptools==80.9.0", "wheel==0.48.0"]
+default-groups = ["dev", "cu124"]
+environments = ["sys_platform == 'linux' and platform_machine == 'x86_64'"]
+conflicts = [[{ group = "cpu" }, { group = "cu124" }]]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", group = "cpu" },
+  { index = "pytorch-cu124", group = "cu124" },
+]
+torchvision = [
+  { index = "pytorch-cpu", group = "cpu" },
+  { index = "pytorch-cu124", group = "cu124" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[project.scripts]
+cofl = "cofl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"cofl.app" = ["static/**/*", "static/*"]
+
+[tool.setuptools.exclude-package-data]
+"cofl.generation.rendering" = ["assets/cameras.json"]
+
+[tool.setuptools.data-files]
+"share/cofl/generation" = ["configs/generation/*.yaml"]
+"share/cofl/training" = ["configs/*_formal.yaml"]
+"share/cofl/training/ablations" = ["configs/ablations/*.yaml"]
+"share/cofl/configs/evaluation" = ["configs/evaluation/*.yaml", "configs/evaluation/*.md"]
+"share/cofl/benchmarks/r2r_1200" = ["benchmarks/r2r_1200/*.json", "benchmarks/r2r_1200/*.md"]
+"share/cofl/benchmarks/rxr_1600" = ["benchmarks/rxr_1600/*.json", "benchmarks/rxr_1600/*.md"]
+"share/cofl/reproduce" = ["reproduce/*.md"]
+"share/cofl/docs" = ["docs/*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

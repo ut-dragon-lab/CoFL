@@ -1,0 +1,44 @@
+# CoFL-S evaluation on the fixed R2R-1200 dataset.
+# Prepare the dataset using benchmarks/r2r_1200/dataset.json first.
+# Model, execution and output settings belong to this evaluation config.
+# Run from the CoFL root:
+#   uv run --locked python -m cofl.online --config configs/evaluation/cofl_s_r2r_online.yaml
+# All paths resolve relative to the YAML file declaring them.
+benchmark: r2r_1200.yaml
+checkpoint: ../../checkpoints/cofl-s/best.ckpt
+output: ../../artifacts/online/cofl-s-r2r-1200
+instruction_mode: oracle
+device: cuda:0
+start: 0
+stride: 1
+count: null
+episode: null
+resume: false
+workers: 16 # Different worker may cause different metric results due to non-deterministic environment and model inference.
+worker_threads: 1
+group_by_scene: true
+reuse_scene: true
+inference_backend: eager
+inference_batch_size: 16
+batch_wait_ms: 2.0
+parameters:
+  max_time_s: 120.0
+  max_steps: 500
+  plant_hz: 100.0
+  controller_hz: 50.0
+  sensor_hz: 30.0
+  planner_hz: 5.0
+  policy_steps: 100
+  policy_dt: 0.01
+  field_grid_size: 100
+  field_query_chunk_size: 4096
+  stop_threshold: 0.0
+  stop_endpoint_m: 0.2
+  stop_pool_step: 0.5
+  oscillation_window: 4
+  oscillation_fwd_stop_max: 1.0
+  turn_in_place_lookahead_m: 1.0
+  lookahead_m: 0.5
+  max_linear_mps: 0.5
+  max_angular_radps: 1.0471975511965976
+  rotate_threshold_deg: 30.0
