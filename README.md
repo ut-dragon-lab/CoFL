@@ -2,6 +2,29 @@
 
 Continuous flow-field policies for language-conditioned navigation.
 
+<table>
+  <tr>
+    <th width="50%">CoFL · Bird's-eye-view navigation</th>
+    <th width="50%">CoFL-S · Egocentric RGB-D navigation</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://youtu.be/gccph7X3fFg">
+        <img src="docs/assets/cofl-demo.gif" alt="CoFL bird's-eye-view navigation demo" width="100%">
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://youtu.be/NJpWBFihxbo">
+        <img src="docs/assets/cofl-s-demo.gif" alt="CoFL-S egocentric RGB-D navigation demo" width="100%">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://youtu.be/gccph7X3fFg">▶ Watch CoFL on YouTube</a></td>
+    <td align="center"><a href="https://youtu.be/NJpWBFihxbo">▶ Watch CoFL-S on YouTube</a></td>
+  </tr>
+</table>
+
 The first model and dataset release covers **CoFL-S**: its RGB-D checkpoint
 and the matching R2R/RxR training and validation collection. CoFL image-field
 weights and datasets are deferred. The source release includes both methods
